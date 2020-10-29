@@ -15,7 +15,16 @@ class ArticleController extends Controller
     //--------- PAGINA PRINCIPAL DE BLOG ARTICULOS -----------
     public function index()
     {
-    	$articulos = BlogArticle::all();
+        $user = auth()->user();
+
+        if($user->roles->title === 'administrador')
+        {
+            $articulos = BlogArticle::all();
+        }else {
+            $articulos = $user->articles;;
+        }
+
+    	
         $secName = 'blog';
     	return view('cms.blog.articulos.index', compact('articulos', 'secName'));
     }

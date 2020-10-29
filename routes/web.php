@@ -18,7 +18,7 @@ Route::get('/', 'HomeController@lading')->name('home');
 
 Route::get('/blog', 'HomeController@blog')->name('blog');
 Route::get('/blog/{slug}', 'HomeController@showPost')->name('blog.show');
-
+Route::get('/autor/{name}', 'HomeController@blogByAuthor')->name('blog.autor');
 Route::get('/blog-categorias/{slug}', 'HomeController@blogByCategories')->name('blog.category.show');
 Route::get('/blog-keywords/{name}', 'HomeController@blogByTag')->name('blog.tag.show');
 Auth::routes();
@@ -89,7 +89,7 @@ Route::middleware('blog')->group(function () {
 	Route::get('/cms/blog/articulos', 'Cms\blog\ArticleController@index')->name('blog.articles');
 	Route::get('/cms/crear/articulo', 'Cms\blog\ArticleController@crearArticulo')->name('blog.article.create');
 	Route::get('/cms/editar/articulo/{id}', 'Cms\blog\ArticleController@editarArticulo')->name('blog.article.show');
-
+	Route::get('/cms/blog/perfil', 'Cms\IndexController@perfilBlogger')->name('blog.perfil');
 	Route::post('/cms/blog/verify/{slug}', 'Cms\blog\ArticleController@verifySlug');
 
 	//metodos posts
@@ -100,6 +100,7 @@ Route::middleware('blog')->group(function () {
 
 	Route::post('/cms/eliminar/article/{id}', 'Cms\blog\ArticleController@eliminarArticulo')->name('blog.article.destroy');
 
+	Route::post('/cms/blog/perfil/update/{id}', 'Cms\IndexController@updatePerfilBlogger')->name('blog.perfil.update');
 	//------- COMENTARIOS -----------
 	Route::get('/get/comments/{id}', 'Cms\blog\BlogCommentController@getComments');
 

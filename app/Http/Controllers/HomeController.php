@@ -8,6 +8,7 @@ use App\Logo_Banner;
 use App\BlogArticle;
 use App\BlogCategorie;
 use App\Keyword;
+use App\User;
 class HomeController extends Controller
 {
     /**
@@ -62,6 +63,16 @@ class HomeController extends Controller
     {
         $tag = Keyword::where('keyword', $name)->first();
         $posts = $tag->articles()->orderBy('id', 'DESC')->paginate(15);
+        $categorias = BlogCategorie::all();
+        $keywords = Keyword::all();
+        $logo = Logo_Banner::where('tipo', 'logo')->first();
+        return view('blog.index', compact('posts', 'categorias', 'keywords', 'logo'));
+    }
+
+    public function blogByAuthor($name)
+    {
+        $user = User::where('name', $name)->first();
+        $posts = $user->articles()->orderBy('id', 'DESC')->paginate(15);
         $categorias = BlogCategorie::all();
         $keywords = Keyword::all();
         $logo = Logo_Banner::where('tipo', 'logo')->first();

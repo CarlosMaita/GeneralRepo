@@ -9,13 +9,32 @@
 
 <section class="container">
 
-	<div class="card mb-3 mt-4">
+	<div class="card mb-2 mt-4">
 	  <img src="{{asset('storage/'.$post->picture)}}" style="height: 60vh; object-fit: cover;" class="card-img-top" alt="...">
 	  <div class="card-body">
 	    <h5 class="card-title">{{$post->title}}</h5>
 	    <p class="card-text">{!!$post->content!!}</p>
-	    <p class="card-text"><small class="text-muted">{{$post->date}}</small></p>
+	  	<div class="d-flex">
+	  		<img class="mr-2" src="{{asset('storage/'.$post->author->picture)}}" style="width: 50px;height: 50px;">
+	  		<h5>{{$post->author->name}}</h5>
+	  	</div>
+	  	<p class="card-text"><small class="text-muted">{{$post->date}}</small></p>
 	  </div>
+	</div>
+
+	<div class="d-flex">
+		<a href="#" id="facebook">
+			<img src="/icons/facebook.svg" style="width: 50px;height: 50px; cursor: pointer;">
+		</a>
+		<a href="#" id="twitter">
+			<img src="/icons/twitter.svg" style="width: 50px;height: 50px; cursor: pointer;">
+		</a>
+		<a href="#" id="linkedin">
+			<img src="/icons/linkedin.svg" style="width: 50px;height: 50px; cursor: pointer;">
+		</a>
+		<a href="#" id="pinterest">
+			<img src="/icons/pinterest.svg" style="width: 50px;height: 50px; cursor: pointer;">
+		</a>
 	</div>
 
 	<div>
@@ -54,6 +73,7 @@
 
 
 <script type="text/javascript">
+	console.log(window.location)
 	let submitButton = document.getElementById('submit_button'),
 		post_id = document.getElementById('post_id'),
 		comment = document.getElementById('comment');
@@ -119,6 +139,37 @@
 
 		})
 	})
+</script>
+
+<script type="text/javascript">
+	const facebook = document.getElementById('facebook'),
+		  twitter = document.getElementById('twitter'),
+		  linkedin = document.getElementById('linkedin'),
+		  pinterest = document.getElementById('pinterest')
+
+	let dir = window.location;
+	let dir2 = encodeURIComponent(dir);
+	let tit = window.document.title;
+	let tit2 = encodeURIComponent(tit);
+
+	facebook.addEventListener('click', (e) => {
+		e.preventDefault()
+		url = `http://www.facebook.com/share.php?u=${dir2}&t=${tit2}`
+		window.open(url, '','width=600,height=400,left=50,top=50')
+	})
+
+	twitter.addEventListener('click', (e) => {
+		url= `http://twitter.com/?status=${tit2}%20${dir}`
+		window.open(url, '', 'width=600,height=400,left=50,top=50')
+	})
+
+
+	linkedin.addEventListener('click', (e) => {
+		e.preventDefault();
+
+		window.open(`http://www.linkedin.com/shareArticle?url='+${encodeURIComponent(window.location)}`, '', 'width=600,height=400,left=50,top=50')
+	})
+
 
 </script>
 

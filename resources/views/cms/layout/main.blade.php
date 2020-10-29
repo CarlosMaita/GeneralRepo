@@ -128,6 +128,12 @@
                           </ul>
                         </li>
                         @endif
+
+                        @if(auth()->user()->roles->title == 'blogger')
+                        <li class="nav-item items">
+                            <a href="{{route('blog.perfil')}}" class="nav-link secciones blog-perfil">Perfil Blogger</a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </nav>

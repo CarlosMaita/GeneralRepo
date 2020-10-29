@@ -41,7 +41,12 @@
 						</div>
 						<div class="col-md-4 pt-4">
 							<h2>{{$post->title}}</h2>
-							<p>{!!substr($post->content,0, 200)!!} ...</p>
+							@if(strlen($post->content) < 200)
+								<p>{!!$post->content!!}</p>
+							@else
+								<p>{!!substr($post->content,0, 200)!!} ...</p>
+							@endif
+							<p>Autor: <a href="{{route('blog.autor', $post->author->name)}}">{{$post->author->name}}</a></p>
 							<a href="{{route('blog.show', $post->slug)}}" class="btn btn-primary">Ver más</a>
 						</div>
 					</div>
