@@ -137,11 +137,11 @@
                     	<h5>Descripción</h5>
                     	<textarea required class="form-control" id="description_editar" name="description"></textarea>
                     </div>
-                    <input type="text" id="slug-editar" name="slug">
+                    <input type="text" style="visibility: hidden;position: absolute;" id="slug-editar" name="slug">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 <button type="button" id="editar_submit" class="btn btn-primary">Actualizar Categoria</button>
             </div>
         </div>
@@ -336,14 +336,15 @@
 			description_editar = document.getElementById('description_editar');
 
 		cat_padre.innerHTML = `
-		<option value="0">Seleccionar categoria padre</option>
 		<option value="0">Principal</option>
 		`
 
 		categorias.forEach(categoria => {
-			cat_padre.innerHTML += `
-				<option value="${categoria.id}" ${categoria.name === padre ? 'selected' : ''}>${categoria.name}</option>
-			`
+			if(categoria.id != id){
+				cat_padre.innerHTML += `
+					<option value="${categoria.id}" ${categoria.name === padre ? 'selected' : ''}>${categoria.name}</option>
+				`
+			}
 		})
 
 		catIdEdit.value = id
