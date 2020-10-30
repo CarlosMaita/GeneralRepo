@@ -8,7 +8,7 @@
 @section('content')
 
 <section class="container">
-
+	<input type="hidden" id="articuloId" value="{{$post->id}}">
 	<div class="card mb-2 mt-4">
 	  <img src="{{asset('storage/'.$post->picture)}}" style="height: 60vh; object-fit: cover;" class="card-img-top" alt="...">
 	  <div class="card-body">
@@ -22,19 +22,22 @@
 	  </div>
 	</div>
 
-	<div class="d-flex">
-		<a href="#" id="facebook">
-			<img src="/icons/facebook.svg" style="width: 50px;height: 50px; cursor: pointer;">
-		</a>
-		<a href="#" id="twitter">
-			<img src="/icons/twitter.svg" style="width: 50px;height: 50px; cursor: pointer;">
-		</a>
-		<a href="#" id="linkedin">
-			<img src="/icons/linkedin.svg" style="width: 50px;height: 50px; cursor: pointer;">
-		</a>
-		<a href="#" id="pinterest">
-			<img src="/icons/pinterest.svg" style="width: 50px;height: 50px; cursor: pointer;">
-		</a>
+	<div class="my-3">
+		<h3>Compartir en redes sociales</h3>
+		<div class="d-flex">
+			<a href="#" id="facebook">
+				<img src="/icons/facebook.svg" style="width: 50px;height: 50px; cursor: pointer;">
+			</a>
+			<a href="#" id="twitter">
+				<img src="/icons/twitter.svg" style="width: 50px;height: 50px; cursor: pointer;">
+			</a>
+			<a href="#" id="linkedin">
+				<img src="/icons/linkedin.svg" style="width: 50px;height: 50px; cursor: pointer;">
+			</a>
+			<a href="#" id="pinterest">
+				<img src="/icons/pinterest.svg" style="width: 50px;height: 50px; cursor: pointer;">
+			</a>
+		</div>
 	</div>
 
 	<div>
@@ -48,70 +51,228 @@
 		</div>
 	</div>
 
-	<div class="mt-2">
-		<form action="" method="POST" class="mb-2">
-			<input type="hidden" id="post_id" value="{{$post->id}}" name="article_id">
-			<div class="row">
-				<div class="form-group col-md-3">
-					<input class="form-control" id="comment" type="text" name="comment" placeholder="Comentario">
-				</div>
-				<div class="col-md-3">
-					<input type="submit" id="submit_button" class="btn btn-primary" value="Enviar">
-				</div>
-			</div>
-		</form>
-		<div>
-			<h3>Comentarios</h3>
+	<div class="my-4">
+		<h3>Comentarios</h3>
+		<div class="">
 			<div id="comment_main">
 				@foreach($comments as $comment)
-					<p>{{$comment->comment}} <small>- {{$comment->created_at->diffForHumans()}}</small></p>
+					@if($comment->padre_id === 0)	
+						<div class="my-4" style="width: 46%">
+							<div class="d-flex justify-content-around">
+								<img class="mr-3" src="/icons/comment_image.jpg" style="width: 80px; height: 80px; object-fit: cover;">
+								<div class="" style="flex: 1">
+									<h5>{{$comment->comentarist->name}}</h5>
+									<p>{{$comment->comment}}</p>
+									<p>Creado el: {{$comment->created_at}}</p>
+								</div>
+								<div>
+									<button id="{{$comment->id}}" class="btn btn-outline-primary boton-respoder">Responder</button>
+								</div>
+							</div>
+							@foreach($comments as $comment_dos)
+								@if($comment_dos->padre_id == $comment->id)
+									<div class="my-4 pl-5">
+										<div class="d-flex justify-content-around">
+											<img class="mr-3" src="/icons/comment_image.jpg" style="width: 80px; height: 80px; object-fit: cover;">
+											<div class="" style="flex: 1">
+												<h5>{{$comment_dos->comentarist->name}}</h5>
+												<p>{{$comment_dos->comment}}</p>
+												<p>Creado el: {{$comment_dos->created_at}}</p>
+											</div>
+										</div>
+									</div>
+								@endif
+							@endforeach
+							<div class="form-container"></div>
+						</div>
+					@endif
 				@endforeach
 			</div>
+		</div>
+		<div class="my-4">
+			<h3>Realizar comentario</h3>
+			<form action="" method="POST" id="form_comments" class="mb-2">
+				<input type="hidden" id="post_id" value="{{$post->id}}" name="article_id">
+				<div class="row">
+					<div class="form-group col-md-6">
+						<h5>Nombre</h5>
+						<input class="form-control" type="text" required maxlength="191" name="name" placeholder="Coloca tu nombre">
+					</div>
+					<div class="form-group col-md-6">
+						<h5>Correo</h5>
+						<input class="form-control" type="email" required maxlength="191" name="email" placeholder="Coloca tu correo electronico">
+					</div>
+					<div class="form-group col-md-12">
+						<h5>Comentario</h5>
+						<textarea class="form-control" name="comment" id="comment"></textarea>
+					</div>
+					<div class="col-md-3">
+						<input type="submit" id="submit_button" class="btn btn-primary" value="Enviar">
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 </section>
 
 
 <script type="text/javascript">
-	console.log(window.location)
-	let submitButton = document.getElementById('submit_button'),
-		post_id = document.getElementById('post_id'),
-		comment = document.getElementById('comment');
+	const responderButtons = document.querySelectorAll('.boton-respoder');
+	let formularioComment = document.getElementById('form_comments')
 
-	submitButton.addEventListener('click', e =>{
+	formularioComment.addEventListener('submit', (e) =>{
 		e.preventDefault();
 
-		sendComment(post_id.value, comment.value)
-		comment.value = '';
+		let postId = formularioComment[0].value,
+			name = formularioComment[1].value,
+			email = formularioComment[2].value,
+			comment = formularioComment[3].value;
+
+
+		sendComment(postId, comment, name, email)
+		formularioComment.reset()
 	})
 
+	if(responderButtons){
+		responderButtons.forEach(button => {
+			button.addEventListener('click', (e) => {
+				let main = e.target.parentNode.parentNode.parentNode,
+					id = e.target.id,
+					formulario = main.children[main.children.length - 1];
+				
+					addFormToResponse(formulario, id)
+			})
+		})
+	}
 
 
 
 
-	function sendComment(post, comment)
+
+	function sendComment(post, comment, name, email, commentId = 0)
 	{
 		axios.post(`/send/comment`, {
 			comment: comment,
-			article_id: post
+			name: name,
+			email: email,
+			article_id: post,
+			comment_id: commentId
 		})
 		.then(response => {
-			if(response.status == 200)
-			{
-				addComment(comment)
+			if(response.status === 200){
+				let comentario = response.data.comentario,
+					usuario = 	response.data.user	
+				
+				addComment(comentario, usuario)
 			}
 		})
 	}
 
 
 
-	function addComment(comment)
+	function addComment(comentario, user)
 	{
+		console.log(comentario)
 		const container = document.getElementById('comment_main');
 
 		container.innerHTML += `
-			<p>${comment}</p>
+			<div class="my-4" style="width: 46%">
+				<div class="d-flex justify-content-around">
+					<img class="mr-3" src="/icons/comment_image.jpg" style="width: 80px; height: 80px; object-fit: cover;">
+					<div class="" style="flex: 1">
+						<h5>${user.name}</h5>
+						<p>${comentario.comment}</p>
+						<p>Creado el: ${comentario.created_at}</p>
+					</div>
+					<div>
+						<button id="${comentario.id}" class="btn btn-outline-primary">Responder</button>
+					</div>
+				</div>
+				<div></div>
+			</div>
 		`
+	}
+
+	function addFormToResponse(formContainer, id) {
+		let template = `
+			<form action="" onsubmit="sendFormResponse(event)" id="form_comments" class="mb-2">
+				<input type="hidden" id="post_id" value="${document.getElementById('articuloId').value}" name="article_id">
+				<div class="row">
+					<div class="form-group col-md-6">
+						<h5>Nombre</h5>
+						<input class="form-control" type="text" required maxlength="191" name="name" placeholder="Coloca tu nombre">
+					</div>
+					<div class="form-group col-md-6">
+						<h5>Correo</h5>
+						<input class="form-control" type="email" required maxlength="191" name="email" placeholder="Coloca tu correo electronico">
+					</div>
+					<div class="form-group col-md-12">
+						<h5>Comentario</h5>
+						<textarea class="form-control" name="comment" id="comment"></textarea>
+					</div>
+					<input type="hidden" id="post_id" value="${id}"
+					<div class="col-md-3">
+						<input type="submit" id="submit_button" class="btn btn-primary" value="Enviar">
+					</div>
+				</div>
+			</form>
+		`
+
+		formContainer.innerHTML = template
+	}
+
+	function sendFormResponse(e){
+		e.preventDefault();
+		let postId = e.target[0].value,
+			name = e.target[1].value,
+			email = e.target[2].value,
+			comment = e.target[3].value,
+			comment_id = e.target[4].value,
+			container = e.target.parentNode.parentNode;
+
+			console.log(container)
+		
+		axios.post(`/send/comment`, {
+			comment: comment,
+			name: name,
+			email: email,
+			article_id: postId,
+			comment_id: comment_id
+		})
+		.then(response => {
+			if(response.status === 200){
+				let comentario = response.data.comentario,
+					usuario = 	response.data.user	
+				
+				addingResponseComment(container, e.target, comentario, usuario)
+			}
+		})
+
+
+	}
+
+
+	function addingResponseComment(container, formulario, comentario, user){
+		let responseMain = document.createElement('div'),
+			template = `	
+				<div class="d-flex justify-content-around">
+					<img class="mr-3" src="/icons/comment_image.jpg" style="width: 80px; height: 80px; object-fit: cover;">
+					<div class="" style="flex: 1">
+						<h5>${user.name}</h5>
+						<p>${comentario.comment}</p>
+						<p>Creado el: ${comentario.created_at}</p>
+					</div>
+				</div>
+			`
+
+		responseMain.classList.add('my-4')
+		responseMain.classList.add('pl-5')
+		responseMain.innerHTML = template
+
+		container.insertBefore(responseMain, formulario.parentNode)
+
+		formulario.parentNode.remove()
+
 	}
 </script>
 
