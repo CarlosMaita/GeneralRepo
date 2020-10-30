@@ -117,9 +117,13 @@
 
 
 <script type="text/javascript">
+//--------VARIABLES DE EVENTOS------------
 	const responderButtons = document.querySelectorAll('.boton-respoder');
 	let formularioComment = document.getElementById('form_comments')
 
+
+
+//--------EVENTO ENVIAR COMENTARIO------------
 	formularioComment.addEventListener('submit', (e) =>{
 		e.preventDefault();
 
@@ -133,14 +137,17 @@
 		formularioComment.reset()
 	})
 
+
+//-------- EVENTO RESPONDER COMENTARIO------------
+
 	if(responderButtons){
 		responderButtons.forEach(button => {
 			button.addEventListener('click', (e) => {
 				let main = e.target.parentNode.parentNode.parentNode,
 					id = e.target.id,
-					formulario = main.children[main.children.length - 1];
+					formularioContainer = main.children[main.children.length - 1];
 				
-					addFormToResponse(formulario, id)
+					addFormToResponse(formularioContainer, id)
 			})
 		})
 	}
@@ -148,7 +155,9 @@
 
 
 
+//-------- FUNCIONES DE EVENTOS ------------
 
+	//-------- FUNCION ENVIAR COMENTARIO ------------
 	function sendComment(post, comment, name, email, commentId = 0)
 	{
 		axios.post(`/send/comment`, {
@@ -169,7 +178,7 @@
 	}
 
 
-
+	//-------- FUNCION AGREGAR COMENTARIO AL DOM ------------
 	function addComment(comentario, user)
 	{
 		console.log(comentario)
@@ -193,9 +202,11 @@
 		`
 	}
 
+	//-------- FUNCION AGREGAR FORMULARIO PARA RESPONDER COMENTARIO ------------
 	function addFormToResponse(formContainer, id) {
 		let template = `
 			<form action="" onsubmit="sendFormResponse(event)" id="form_comments" class="mb-2">
+				<h5 Responder comentario </h5>
 				<input type="hidden" id="post_id" value="${document.getElementById('articuloId').value}" name="article_id">
 				<div class="row">
 					<div class="form-group col-md-6">
@@ -221,6 +232,7 @@
 		formContainer.innerHTML = template
 	}
 
+	//-------- FUNCION ENVIAR COMENTARIO DE RESPUESTA ------------
 	function sendFormResponse(e){
 		e.preventDefault();
 		let postId = e.target[0].value,
@@ -251,7 +263,7 @@
 
 	}
 
-
+	//-------- FUNCION AGREGAR COMENTARIO DE RESPUESTA AL DOM ------------
 	function addingResponseComment(container, formulario, comentario, user){
 		let responseMain = document.createElement('div'),
 			template = `	
@@ -277,6 +289,7 @@
 </script>
 
 <script type="text/javascript">
+//-------- FUNCIONALIDAD REPRODUCTOR POST ------------
 	const reproductor = document.getElementById('reproductor')
 
 	let botonReproducir
@@ -303,6 +316,7 @@
 </script>
 
 <script type="text/javascript">
+//-------- COMPARTIR CON REDES SOCIALES ------------
 	const facebook = document.getElementById('facebook'),
 		  twitter = document.getElementById('twitter'),
 		  linkedin = document.getElementById('linkedin'),
