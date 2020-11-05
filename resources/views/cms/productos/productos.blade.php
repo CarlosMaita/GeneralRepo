@@ -21,7 +21,7 @@
         </div>
     @endif
     <div class="table-responsive">
-      <table class="table table-striped table-sm">
+      <table class="table table-striped table-sm" id="table1">
         <thead>
           <tr>
           	<th>#</th>
@@ -78,6 +78,15 @@
     </div>
 </div>
 
+<script src="{{asset('vendor/datatables/datatables.min.js')}}"></script>
+
+<!-- para usar botones en datatables JS -->
+<script src="{{asset('vendor/datatables/Buttons-1.5.6/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('vendor/datatables/JSZip-2.5.0/jszip.min.js')}}"></script>
+<script src="{{asset('vendor/datatables/pdfmake-0.1.36/pdfmake.min.js')}}"></script>
+<script src="{{asset('vendor/datatables/pdfmake-0.1.36/vfs_fonts.js')}}"></script>
+<script src="{{asset('vendor/datatables/Buttons-1.5.6/js/buttons.html5.min.js')}}"></script>
+
 <script type="text/javascript">
     let eliminarButtons = document.querySelectorAll('.eliminar_product');
     let eliminarSubmit = document.getElementById('eliminar_submit');
@@ -113,6 +122,52 @@
             ¿Seguro que desea eliminar este producto?
         `
     }
+</script>
+
+
+<script>
+  window.onload = function() {
+    $('#table1').DataTable({
+      language: {
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "zeroRecords": "No se encontraron resultados",
+        "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "oPaginate": {
+          "sFirst": "Primero",
+          "sLast": "Último",
+          "sNext": "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "sProcessing": "Procesando...",
+      },
+      //para usar los botones   
+      responsive: "true",
+      pageLength: 50,
+      dom: 'Bfrtilp',
+      buttons: [{
+          extend: 'excelHtml5',
+          text: '<i class="fas fa-file-excel"></i> ',
+          titleAttr: 'Exportar a Excel',
+          className: 'btn btn-success'
+        },
+        {
+          extend: 'pdfHtml5',
+          text: '<i class="fas fa-file-pdf"></i> ',
+          titleAttr: 'Exportar a PDF',
+          className: 'btn btn-danger'
+        },
+        {
+          extend: 'print',
+          text: '<i class="fa fa-print"></i> ',
+          titleAttr: 'Imprimir',
+          className: 'btn btn-info'
+        },
+      ]
+    });
+  }
 </script>
 
 @endsection

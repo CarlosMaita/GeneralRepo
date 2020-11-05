@@ -77,6 +77,7 @@
 					    	<p class="card-text">{{substr($producto->description, 0, 70)}} ...</p>
 					    @endif
 					    <p><small>{{$producto->price}} $</small></p>
+					    <p>precio referencial: {{$producto->price_reference}} $</p>
 					    <input type="text" value="{{$producto->slug}}" style="visibility: hidden;">
 					    <div class="text-center mb-3">
 					    	<a href="{{route('producto.show', $producto->slug)}}" class="btn btn-primary">Ver producto</a>
