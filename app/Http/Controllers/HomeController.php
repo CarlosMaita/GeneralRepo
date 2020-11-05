@@ -71,12 +71,12 @@ class HomeController extends Controller
 
     public function blogByAuthor($name)
     {
-        $user = User::where('name', $name)->first();
-        $posts = $user->articles()->orderBy('id', 'DESC')->paginate(15);
+        $autor = User::where('name', $name)->first();
+        $posts = $autor->articles()->orderBy('id', 'DESC')->paginate(15);
         $categorias = BlogCategorie::all();
         $keywords = Keyword::all();
         $logo = Logo_Banner::where('tipo', 'logo')->first();
-        return view('blog.index', compact('posts', 'categorias', 'keywords', 'logo'));
+        return view('blog.index', compact('posts', 'categorias', 'keywords', 'logo', 'autor'));
     }
 
 }

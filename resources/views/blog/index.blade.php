@@ -34,6 +34,16 @@
 		<div class="row">
 			<div class="col-9">
 				<h1 class="my-4">Posts disponibles</h1>
+				@if(isset($autor))
+					<div class="d-flex">
+						<img src="{{asset('storage/'.$autor->picture)}}" class="mr-3" style="width: 70px;height: 70px;">
+						<div>
+							<h2>Autor: {{ $autor->name }} {{$autor->apellido}}</h2>
+							<p>Correo: {{$autor->email}}</p>
+						</div>
+					</div>
+
+				@endif
 				@foreach($posts as $post)
 					<div class="row mb-5">
 						<div class="col-md-8">
@@ -47,6 +57,7 @@
 								<p>{!!substr($post->content,0, 200)!!} ...</p>
 							@endif
 							<p>Autor: <a href="{{route('blog.autor', $post->author->name)}}">{{$post->author->name}}</a></p>
+							<p>Fecha: {{$post->created_at}}</p>
 							<a href="{{route('blog.show', $post->slug)}}" class="btn btn-primary">Ver más</a>
 						</div>
 					</div>
