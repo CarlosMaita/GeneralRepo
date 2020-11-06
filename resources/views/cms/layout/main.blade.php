@@ -26,6 +26,8 @@
 
   <!-- Axios -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script src="/AdminLTE/plugins/jquery/jquery.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 
@@ -289,7 +291,6 @@
 
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
-<script src="/AdminLTE/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->
 <script src="/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- overlayScrollbars -->
