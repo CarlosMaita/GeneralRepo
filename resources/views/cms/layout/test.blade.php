@@ -218,6 +218,12 @@
                   <p>Home</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{route('cms.contacto')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Contacto</p>
+                </a>
+              </li>
             </ul>
           </li>
         </ul>
