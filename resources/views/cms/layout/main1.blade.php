@@ -28,7 +28,11 @@
         .acordeon_container{
             max-height: 0;
             overflow: hidden;
+<<<<<<< HEAD
             transition: all .2s linear;
+=======
+            transition: all .4s linear;
+>>>>>>> landing_page
         }
 
         .acordeon_item{
@@ -38,7 +42,10 @@
 
         .nav-item:hover .acordeon_container{
           max-height: 20rem;
+<<<<<<< HEAD
           transition: all .4s linear;
+=======
+>>>>>>> landing_page
         }
 
 
@@ -112,6 +119,7 @@
                         </li>
                         @endif
 
+
                         @if(auth()->user()->roles->title == 'blogger' || auth()->user()->roles->title == 'administrador')
                         <li class="nav-item items">
                           <a class="nav-link menu_hover secciones blog"  href="#">
@@ -134,6 +142,7 @@
                             <a href="{{route('blog.perfil')}}" class="nav-link secciones blog-perfil">Perfil Blogger</a>
                         </li>
                         @endif
+
                     </ul>
                 </div>
             </nav>
