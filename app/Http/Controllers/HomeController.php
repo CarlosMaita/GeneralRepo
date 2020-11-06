@@ -24,4 +24,10 @@ class HomeController extends Controller
         $logo = Logo_Banner::where('tipo', 'logo')->first();
         return view('landing', compact('sliders', 'logo'));
     }
+
+
+    public function contacto()
+    {
+        return view('contactanos');
+    }
 }

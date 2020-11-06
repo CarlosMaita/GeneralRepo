@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@lading')->name('home');
 
+Route::get('/contacto', 'HomeController@contacto')->name('contacto');
+
 Auth::routes();
 
 /*---------------Login --------------*/
@@ -45,6 +47,9 @@ Route::middleware('admin')->group(function () {
 /*---------------EDITORES LANDING PAGE CMS--------------*/
 Route::middleware('landing')->group(function () {
 	
+
+	/*--------------- VISTA BANNERS/LOGO --------------*/
+
 	Route::get('/cms/banners', 'Cms\LogoBannerController@index')->name('banners.home');
 	Route::get('/cms/crear/banner', 'Cms\LogoBannerController@crearBanner')->name('banners.create');
 	Route::get('/cms/editar/banner/{id}', 'Cms\LogoBannerController@editarBanner')->name('banners.show');
@@ -58,4 +63,12 @@ Route::middleware('landing')->group(function () {
 	//ocultar/activar banners
 	Route::get('/cms/activar/banner/{id}', 'Cms\LogoBannerController@activarBanner')->name('banners.active');
 	Route::get('/cms/ocultar/banner/{id}', 'Cms\LogoBannerController@ocultarBanner')->name('banners.desactive');
+
+
+
+	/*--------------- VISTA CONTACTO --------------*/
+	Route::get('/cms/contacto', 'Cms\ContactoController@index')->name('cms.contacto');
+
+	//posts
+	Route::post('/cms/contacto/actualizar', 'Cms\ContactoController@actualizarInformacion')->name('cms.contacto.update');
 });
