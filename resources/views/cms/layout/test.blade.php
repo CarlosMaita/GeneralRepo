@@ -253,13 +253,15 @@
                   <p>Blog Articulos</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
             </ul>
+          </li>
+          <li class="nav-item ">
+            <a href="{{route('blog.perfil')}}" class="nav-link ">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Perfil Blogger
+              </p>
+            </a>
           </li>
         </ul>
       </nav>
