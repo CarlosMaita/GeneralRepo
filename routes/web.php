@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test', function() {
+	return view('cms.layout.test');
+});
+
 Route::get('/', 'HomeController@lading')->name('home');
 
 Route::get('/contacto', 'HomeController@contacto')->name('contacto');
