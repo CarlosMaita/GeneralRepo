@@ -48,6 +48,12 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <form action="/logout" id="logout_form" method="POST">
+          @csrf
+          <a href="#" onclick="document.getElementById('logout_form').submit()" class="nav-link">Cerrar Sesión</a>
+        </form>
+      </li>
     </ul>
 
     <!-- SEARCH FORM -->
